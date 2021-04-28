@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe '投稿のテスト' do
   
-  let!(:list) { create(:list,title:'hoge',body:'hoge')}
+  let!(:list) { create(:list,title:'hoge',body:'body') }
   
   describe 'トップ画面(top_path)のテスト' do
     before 'トップ画面への遷移' do
@@ -12,7 +12,7 @@ describe '投稿のテスト' do
     end
     context '表示の確認' do
       it 'トップ画面(top_path)に「ここはTopページです」が表示されているか' do
-        expect(page).to have_content 'successfully'
+        expect(page).to have_content 'ここはTopページです'
       end
       it 'top_pathが"/top"であるか' do
         expect(current_path).to eq('/top')
@@ -46,14 +46,10 @@ describe '投稿のテスト' do
     before '一覧画面への遷移' do
       visit todolists_path
     end
-    context '一覧の表示とリンクの確認' do
+    context '一覧の表示確認' do
       it '一覧表示画面に投稿されたもの表示されているか' do
-        
-        # 画像の入力方法がわからない
-        
-        (1...5).each do |i|
-          List.create(title:'hoge'+i.to_s,body:'body'+i.to_s)
-        end
+        expect(page).to have_content list.title
+        expect(page).to have_link list.title
       end
     end
   end
@@ -64,20 +60,17 @@ describe '投稿のテスト' do
     end
     context '表示のテスト' do
       it '削除リンクが存在しているか' do
-        
-        # わからない
-        
+        expect(page).to have_link '削除'
       end
       it '編集リンクが存在しているか' do
-        
-        # わからない
-        
+        expect(page).to have_link '編集'
       end
     end
     context 'リンクの遷移先の確認' do
       it '編集の遷移先は編集画面か' do
-      # わからない
-      
+        edit_link = find_all('a')[0]
+        edit_link.click
+        expect(current_path).to eq('/todolists/' + list.id.to_s + '/edit')
       end
     end
     context 'list削除のテスト' do
