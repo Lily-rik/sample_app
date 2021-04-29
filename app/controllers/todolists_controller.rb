@@ -1,7 +1,6 @@
 class TodolistsController < ApplicationController
-
-  def  new
-   @list=List.new
+  def new
+    @list = List.new
   end
 
   def create
@@ -34,13 +33,9 @@ class TodolistsController < ApplicationController
     redirect_to todolists_path
   end
 
-
   private
 
   def list_params
-    params.require(:list).permit(:title,:body,:image)
+    params.require(:list).permit(:title, :body, :image)
   end
-
 end
-
-
